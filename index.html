@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b24">
+  <title>Momentum / Frame Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Momentum Frame Lab">
+        <span class="brand-mark">↗</span>
+        <span><strong>momentum</strong><em> / frame lab</em></span>
+      </a>
+    </header>
+
+    <section class="intro" id="top">
+      <div class="intro-copy">
+        <h1>Perpindahan<br><span>momentum</span></h1>
+      </div>
+      <div class="equation-card" aria-label="Persamaan kekekalan momentum">
+        <div class="equation-label">yang selalu sama</div>
+        <div class="equation">p<sub>sebelum</sub> = p<sub>sesudah</sub></div>
+        <div class="equation-note">momentum total · <span id="totalMomentum">12.0 kg·m/s</span></div>
+      </div>
+    </section>
+
+    <section class="science-note">
+      <div class="science-grid">
+        <article class="science-block">
+          <span class="science-number">01</span>
+          <h3>Pengertian ilmiah</h3>
+          <p>Dalam sistem tertutup tanpa gaya luar, total momentum benda sebelum tumbukan selalu sama dengan total momentum setelah tumbukan. Momentum (<em>p</em>) didefinisikan sebagai hasil kali massa (<em>m</em>) dengan kecepatannya (<em>v</em>).</p>
+        </article>
+        <article class="science-block formula-block">
+          <span class="science-number">02</span>
+          <h3>Rumus matematika</h3>
+          <div class="formula-row"><span>rumus dasar</span><strong><em>p</em> = <em>m</em> · <em>v</em></strong></div>
+          <div class="formula-row"><span>hukum kekekalan</span><strong><em>m</em><sub>A</sub><em>v</em><sub>A</sub> + <em>m</em><sub>B</sub><em>v</em><sub>B</sub> = <em>m</em><sub>A</sub><em>v</em><sub>A</sub>′ + <em>m</em><sub>B</sub><em>v</em><sub>B</sub>′</strong></div>
+        </article>
+        <article class="science-block">
+          <span class="science-number">03</span>
+          <h3>Kerangka acuan</h3>
+          <p>Kecepatan benda (<em>v</em>) bersifat relatif terhadap pengamat. Jika pengamat bergerak dengan kecepatan <em>v</em><sub>o</sub>, maka kecepatan relatif benda menjadi <em>v</em>′ = <em>v</em> − <em>v</em><sub>o</sub>. Namun, prinsip kekekalan momentum tetap berlaku di semua kerangka acuan inersia.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="control-deck" aria-label="Kontrol simulasi">
+      <div class="control-group object-controls">
+        <span class="control-label">benda A</span>
+        <label>massa <output id="massAValue">2.0 kg</output><input id="massA" type="range" min="1" max="5" step="0.5" value="2"></label>
+        <label>kecepatan <output id="velocityAValue">6.0 m/s</output><input id="velocityA" type="range" min="2" max="10" step="0.5" value="6"></label>
+      </div>
+      <div class="control-group object-controls object-b">
+        <span class="control-label">benda B</span>
+        <label>massa <output id="massBValue">3.0 kg</output><input id="massB" type="range" min="1" max="5" step="0.5" value="3"></label>
+        <label>kecepatan awal <output id="velocityBValue">0.0 m/s</output><input id="velocityB" type="range" min="-4" max="4" step="0.5" value="0"></label>
+      </div>
+      <div class="control-group frame-controls">
+        <span class="control-label">kerangka bergerak</span>
+        <label class="frame-speed-label">kecepatan pengamat <output id="observerSpeedValue">2.5 m/s</output></label>
+        <input id="observerSpeed" class="accent-range" type="range" min="-4" max="6" step="0.5" value="2.5">
+        <div class="range-hints"><span>← kiri</span><span>kanan →</span></div>
+      </div>
+      <div class="action-controls">
+        <button id="resetButton" class="icon-button" type="button" title="Ulangi simulasi" aria-label="Ulangi simulasi">↺</button>
+        <button id="playButton" class="play-button" type="button"><span class="play-icon">▶</span><span id="playLabel">mulai</span></button>
+        <button id="stepButton" class="icon-button" type="button" title="Maju satu langkah" aria-label="Maju satu langkah">→</button>
+      </div>
+    </section>
+
+    <section class="sim-stage" aria-label="Dua layar pengamat">
+      <div class="stage-heading">
+        <div><span class="section-kicker">RELATIVITAS GERAK</span><h2>Pengamatan Real-Time</h2></div>
+        <div class="time-readout"><span>t</span> <strong id="timeValue">0.00 s</strong></div>
+      </div>
+      <div class="split-screen">
+        <article class="viewport viewport-rest">
+          <div class="viewport-head"><div><span class="viewport-index">01</span><h3>pengamat diam</h3><p>kerangka laboratorium</p></div><span class="frame-chip">V = 0</span></div>
+          <div class="scene" id="restScene">
+            <div class="scene-grid"></div><div class="origin-label">0 m</div><div class="track-label">lintasan x</div>
+            <div class="object object-a" id="restObjectA"><span class="object-letter">A</span><span class="velocity-badge" id="restBadgeA">+6.0</span></div>
+            <div class="object object-b" id="restObjectB"><span class="object-letter">B</span><span class="velocity-badge" id="restBadgeB">0.0</span></div>
+            <div class="collision-flash" id="restFlash"></div>
+          </div>
+          <div class="viewport-footer"><span>posisi</span><strong id="restPosition">A 1.0 m · B 6.0 m</strong><span class="direction-line">x →</span></div>
+        </article>
+        <article class="viewport viewport-moving">
+          <div class="viewport-head"><div><span class="viewport-index">02</span><h3>pengamat bergerak</h3><p>kerangka dengan V konstan</p></div><span class="frame-chip moving-chip" id="movingFrameChip">V = +2.5</span></div>
+          <div class="scene" id="movingScene">
+            <div class="scene-grid moving-grid"></div><div class="origin-label">0 m</div><div class="track-label">lintasan x′</div>
+            <div class="observer-line" id="observerLine"><span>pengamat</span></div>
+            <div class="object object-a" id="movingObjectA"><span class="object-letter">A</span><span class="velocity-badge" id="movingBadgeA">+3.5</span></div>
+            <div class="object object-b" id="movingObjectB"><span class="object-letter">B</span><span class="velocity-badge" id="movingBadgeB">−2.5</span></div>
+            <div class="collision-flash" id="movingFlash"></div>
+          </div>
+          <div class="viewport-footer"><span>posisi relatif</span><strong id="movingPosition">A −2.0 m · B 3.0 m</strong><span class="direction-line">x′ →</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="insight-bar">
+      <div class="insight-mark">i</div>
+      <div><span class="section-kicker">catatan feynman</span><p id="insightText">Kecepatan berubah ketika sudut pandang berubah. Tetapi peristiwa tumbukan dan momentum totalnya tetap bisa disepakati oleh kedua pengamat.</p></div>
+      <div class="conservation-readout"><span>momentum sesudah</span><strong id="afterMomentum">12.0 kg·m/s</strong></div>
+    </section>
+
+    <footer class="footer"><span>FRAME 01 / MOMENTUM</span><span>sebuah laboratorium kecil untuk intuisi besar</span></footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
