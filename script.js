@@ -43,7 +43,10 @@ const elements = {
   observerLine: document.querySelector('#observerLine'),
   restFlash: document.querySelector('#restFlash'),
   movingFlash: document.querySelector('#movingFlash'),
-  insightText: document.querySelector('#insightText')
+  insightText: document.querySelector('#insightText'),
+  momentumFormulaA: document.querySelector('#momentumFormulaA'),
+  momentumFormulaB: document.querySelector('#momentumFormulaB'),
+  forceAnalysis: document.querySelector('#forceAnalysis')
 };
 
 const initialPositions = { a: 1, b: 6 };
@@ -52,6 +55,16 @@ const sceneRange = { min: -3, max: 10 };
 
 function formatNumber(value) {
   return `${value >= 0 ? '+' : ''}${value.toFixed(1)}`;
+}
+
+function describeMotion(velocity) {
+  if (velocity === 0) return 'diam';
+  return velocity > 0 ? 'bergerak ke kanan' : 'bergerak ke kiri';
+}
+
+function formatMomentumFormula(label, mass, velocity) {
+  const momentum = mass * velocity;
+  return `p<sub>${label}</sub> = ${mass.toFixed(1)} kg × (${formatNumber(velocity)} m/s) = ${formatNumber(momentum)} kg·m/s`;
 }
 
 function collisionVelocities() {
@@ -123,9 +136,20 @@ function setTextAndState() {
   }
   if (state.time < collisionTime) state.collisionShown = false;
 
-  elements.insightText.textContent = state.time < collisionTime
-    ? 'Kedua layar sedang menuju peristiwa yang sama. Angka kecepatannya berbeda karena pengamat bergerak ikut membawa sistem koordinatnya.'
-    : 'Kecepatan berubah ketika sudut pandang berubah. Tetapi peristiwa tumbukan dan momentum totalnya tetap bisa disepakati oleh kedua pengamat.';
+  const activeVelocities = state.time <= collisionTime
+    ? [state.velocityA, state.velocityB]
+    : [after.a, after.b];
+  const momentumA = state.massA * activeVelocities[0];
+  const momentumB = state.massB * activeVelocities[1];
+  const describeObject = (label, velocity, momentum) => velocity === 0
+    ? `Benda ${label} diam (v = 0), sehingga momentumnya p = m × 0 = 0 kg·m/s. Sesuai Hukum I Newton, benda mempertahankan keadaan diam jika resultan gaya padanya nol.`
+    : `Benda ${label} ${describeMotion(velocity)} dengan momentum ${formatNumber(momentum)} kg·m/s. Nilai dan arah ini berasal dari massa ${state[`mass${label}`].toFixed(1)} kg dikalikan kecepatan ${formatNumber(velocity)} m/s; tanda momentum menunjukkan arahnya.`;
+  elements.insightText.textContent = `${describeObject('A', activeVelocities[0], momentumA)} ${describeObject('B', activeVelocities[1], momentumB)}`;
+  elements.momentumFormulaA.innerHTML = formatMomentumFormula('A', state.massA, activeVelocities[0]);
+  elements.momentumFormulaB.innerHTML = formatMomentumFormula('B', state.massB, activeVelocities[1]);
+  elements.forceAnalysis.textContent = state.time > collisionTime
+    ? 'Saat tumbukan, gaya interaksi mengubah momentum: F_net = Δp/Δt. Model ini menganggap tumbukan berlangsung seketika, jadi nilai gaya dan lama kontak tidak dihitung. Setelah tumbukan, resultan gaya nol dan momentum total sistem tetap.'
+    : 'Hukum II Newton dalam bentuk momentum: F_net = Δp/Δt (atau F_net = dp/dt). Saat resultan gaya nol, momentum tetap; selama tumbukan, gaya interaksi mengubah momentum tiap benda.';
 }
 
 function togglePlay() {

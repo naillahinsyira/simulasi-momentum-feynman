@@ -105,13 +105,22 @@
       </div>
     </section>
 
-    <section class="insight-bar">
-      <div class="insight-mark">i</div>
-      <div><span class="section-kicker">catatan feynman</span><p id="insightText">Kecepatan berubah ketika sudut pandang berubah. Tetapi peristiwa tumbukan dan momentum totalnya tetap bisa disepakati oleh kedua pengamat.</p></div>
-      <div class="conservation-readout"><span>momentum sesudah</span><strong id="afterMomentum">12.0 kg·m/s</strong></div>
+    <section class="insight-bar" aria-labelledby="insightHeading">
+      <div class="insight-mark" aria-hidden="true">Σ</div>
+      <div class="insight-content">
+        <span class="section-kicker">kesimpulan dinamika</span>
+        <h2 id="insightHeading">Kesimpulan &amp; Analisis Fisika</h2>
+        <p id="insightText" aria-live="polite"></p>
+        <div class="momentum-formulas" aria-label="Perhitungan momentum saat ini">
+          <div class="momentum-formula"><span>momentum benda A</span><strong id="momentumFormulaA"></strong></div>
+          <div class="momentum-formula"><span>momentum benda B</span><strong id="momentumFormulaB"></strong></div>
+        </div>
+        <p class="force-analysis" id="forceAnalysis"></p>
+      </div>
+      <div class="conservation-readout"><span>momentum total sistem</span><strong id="afterMomentum">12.0 kg·m/s</strong></div>
     </section>
 
-    <footer class="footer"><span>FRAME 01 / MOMENTUM</span><span>sebuah laboratorium kecil untuk intuisi besar</span></footer>
+    <footer class="footer"><span>FRAME 01 / MOMENTUM</span><span>sebuah simulasi kecil untuk pemahaman dasar</span></footer>
   </main>
   <script src="script.js"></script>
 </body>
