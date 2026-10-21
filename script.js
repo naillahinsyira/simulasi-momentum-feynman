@@ -46,7 +46,10 @@ const elements = {
   insightText: document.querySelector('#insightText'),
   momentumFormulaA: document.querySelector('#momentumFormulaA'),
   momentumFormulaB: document.querySelector('#momentumFormulaB'),
-  forceAnalysis: document.querySelector('#forceAnalysis')
+  forceAnalysis: document.querySelector('#forceAnalysis'),
+  feedbackForm: document.querySelector('#feedbackForm'),
+  feedbackSubmit: document.querySelector('.feedback-submit'),
+  feedbackStatus: document.querySelector('#feedbackStatus')
 };
 
 const initialPositions = { a: 1, b: 6 };
@@ -195,4 +198,33 @@ function step() {
 elements.playButton.addEventListener('click', togglePlay);
 elements.resetButton.addEventListener('click', reset);
 elements.stepButton.addEventListener('click', step);
+elements.feedbackForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  if (!elements.feedbackForm.reportValidity()) return;
+
+  const buttonLabel = elements.feedbackSubmit.querySelector('span:last-child');
+  elements.feedbackSubmit.disabled = true;
+  buttonLabel.textContent = 'Mengirim...';
+  elements.feedbackStatus.textContent = 'Saran sedang dikirim.';
+  elements.feedbackStatus.classList.remove('is-success', 'is-error');
+
+  try {
+    const response = await fetch(elements.feedbackForm.action, {
+      method: 'POST',
+      body: new FormData(elements.feedbackForm),
+      headers: { Accept: 'application/json' }
+    });
+    if (!response.ok) throw new Error('Formulir tidak dapat dikirim. Periksa konfigurasi Formspree lalu coba lagi.');
+
+    elements.feedbackForm.reset();
+    elements.feedbackStatus.textContent = 'Terima kasih, saran berhasil dikirim!';
+    elements.feedbackStatus.classList.add('is-success');
+  } catch (error) {
+    elements.feedbackStatus.textContent = error.message || 'Terjadi kendala saat mengirim. Silakan coba lagi.';
+    elements.feedbackStatus.classList.add('is-error');
+  } finally {
+    elements.feedbackSubmit.disabled = false;
+    buttonLabel.textContent = 'Kirim Saran';
+  }
+});
 setTextAndState();

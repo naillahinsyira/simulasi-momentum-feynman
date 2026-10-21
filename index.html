@@ -120,6 +120,29 @@
       <div class="conservation-readout"><span>momentum total sistem</span><strong id="afterMomentum">12.0 kg·m/s</strong></div>
     </section>
 
+    <section class="feedback-section" aria-labelledby="feedbackHeading">
+      <div class="feedback-heading">
+        <span class="section-kicker">ruang untuk bertanya</span>
+        <h2 id="feedbackHeading">Kotak Saran &amp; Masukan</h2>
+        <p>Punya pertanyaan atau ide untuk simulasi ini? Kirimkan di sini.</p>
+      </div>
+      <form id="feedbackForm" class="feedback-form" action="https://formspree.io/f/mwlvgqjr" method="POST">
+        <label class="feedback-field">Nama <span>(opsional / anonim)</span>
+          <input type="text" name="name" autocomplete="name" placeholder="Nama Anda">
+        </label>
+        <label class="feedback-field">Email Pengunjung
+          <input type="email" name="email" autocomplete="email" placeholder="nama@email.com" required>
+        </label>
+        <label class="feedback-field feedback-message">Pesan / Saran
+          <textarea name="message" rows="5" placeholder="Tuliskan pesan atau saran Anda..." required></textarea>
+        </label>
+        <div class="feedback-actions">
+          <button class="play-button feedback-submit" type="submit"><span class="play-icon">↗</span><span>Kirim Saran</span></button>
+          <p id="feedbackStatus" class="feedback-status" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+
     <footer class="footer"><span>FRAME 01 / MOMENTUM</span><span>sebuah simulasi kecil untuk pemahaman dasar</span></footer>
   </main>
   <script src="script.js"></script>
